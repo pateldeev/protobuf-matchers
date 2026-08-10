@@ -8,10 +8,10 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 set(PROTOBUF_MATCHERS_PROTOBUF_DEFAULT_FETCH_TAG
-  "v22.5"
+  "v34.1"
 )
 set(PROTOBUF_MATCHERS_GTEST_DEFAULT_FETCH_TAG
-  "release-1.12.1"
+  "v1.17.0"
 )
 
 # -----------------------------------------------------------------------------
@@ -62,6 +62,13 @@ if(NOT TARGET protobuf::libprotobuf)
     message(FATAL_ERROR "Protobuf is required but was not found or fetched.")
 endif()
 
+# Protobuf v33's ErrorCollector API uses absl::string_view. When Protobuf is
+# fetched, it provides this target; system Protobuf installations may require
+# locating Abseil separately.
+if(NOT TARGET absl::strings)
+    find_package(absl CONFIG REQUIRED)
+endif()
+
 # -----------------------------------------------------------------------------
 # GTest Dependency
 # -----------------------------------------------------------------------------
@@ -96,6 +103,7 @@ endif()
 add_library(protobuf-matchers protobuf-matchers/protocol-buffer-matchers.cc)
 target_include_directories(protobuf-matchers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(protobuf-matchers PUBLIC
+    absl::strings
     protobuf::libprotobuf
     GTest::gmock)
 
