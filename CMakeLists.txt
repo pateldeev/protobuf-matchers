@@ -62,13 +62,6 @@ if(NOT TARGET protobuf::libprotobuf)
     message(FATAL_ERROR "Protobuf is required but was not found or fetched.")
 endif()
 
-# Protobuf v33's ErrorCollector API uses absl::string_view. When Protobuf is
-# fetched, it provides this target; system Protobuf installations may require
-# locating Abseil separately.
-if(NOT TARGET absl::strings)
-    find_package(absl CONFIG REQUIRED)
-endif()
-
 # -----------------------------------------------------------------------------
 # GTest Dependency
 # -----------------------------------------------------------------------------
@@ -103,7 +96,6 @@ endif()
 add_library(protobuf-matchers protobuf-matchers/protocol-buffer-matchers.cc)
 target_include_directories(protobuf-matchers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(protobuf-matchers PUBLIC
-    absl::strings
     protobuf::libprotobuf
     GTest::gmock)
 

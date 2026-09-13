@@ -27,7 +27,6 @@
 #include <memory>
 #include <regex>
 
-#include "absl/strings/string_view.h"
 #include "gmock/gmock-matchers.h"
 #include "gmock/gmock-more-matchers.h"
 #include "google/protobuf/descriptor.h"
@@ -46,14 +45,14 @@ class StringErrorCollector : public google::protobuf::io::ErrorCollector {
   explicit StringErrorCollector(std::string* error_text)
       : error_text_(error_text) {}
 
-  void RecordError(int line, int column, absl::string_view message) override {
+  void RecordError(int line, int column, std::string_view message) override {
     std::ostringstream stream;
     stream << line << '(' << column << "): " << message << std::endl;
     *error_text_ += stream.str();
   }
 
   void RecordWarning(int line, int column,
-                     absl::string_view message) override {
+                     std::string_view message) override {
     std::ostringstream stream;
     stream << line << '(' << column << "): " << message << std::endl;
     *error_text_ += stream.str();

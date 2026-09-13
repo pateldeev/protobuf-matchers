@@ -27,7 +27,7 @@ In your `MODULE.bazel`:
 
 ```
 ...
-bazel_dep(name = "protobuf-matchers", version = "0.2.0")
+bazel_dep(name = "protobuf-matchers", version = "0.1.3")
 ...
 ```
 
@@ -47,7 +47,7 @@ See also: https://bazel.build/rules/lib/globals/module
 
 # Build with Bazel
 
-Requires Bazel 8.0 or newer.
+Requires Bazel 9.0 or newer.
 
 Build and test
 ```sh
